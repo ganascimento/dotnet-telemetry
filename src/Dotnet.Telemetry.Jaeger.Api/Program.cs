@@ -1,4 +1,5 @@
 using Dotnet.Telemetry.Jaeger.Api.Configuration;
+using Dotnet.Telemetry.Jaeger.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,5 +20,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<MetricsMiddleware>();
 
 app.Run();

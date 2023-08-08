@@ -1,6 +1,6 @@
 {
     "monitor": {
-        "menuEnabled": true
+        "menuEnabled": false
     },
     "dependencies": {
         "menuEnabled": true

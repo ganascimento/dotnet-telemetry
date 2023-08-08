@@ -33,6 +33,7 @@ public static class ConfigureOpenTelemetry
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation()
                     .AddProcessInstrumentation()
+                    .AddMeter("Application.Metrics")
                     .AddOtlpExporter(o => o.Endpoint = new Uri(configuration["Otlp:Endpoint"] ?? throw new InvalidOperationException()));
             });
 
