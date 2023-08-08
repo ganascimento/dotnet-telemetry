@@ -1,0 +1,47 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  prometheus:
+    endpoint: 0.0.0.0:8889
+  
+  logging:
+
+  otlphttp/jaeger:
+    endpoint: "http://jaeger:4318"
+    tls:
+      insecure: true
+
+  otlphttp/seq:
+    endpoint: "http://seq:5341/ingest/otlp"
+    tls:
+      insecure: true
+
+# Configure processors (batch, sampling, filtering, hashing sensitive data, etc.)
+# https://opentelemetry.io/docs/collector/configuration/#processors
+processors:
+  batch:
+
+extensions:
+  health_check:
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, otlphttp/jaeger]
+
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, prometheus]
+
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, otlphttp/seq]
